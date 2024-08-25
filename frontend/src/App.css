@@ -1,0 +1,238 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.edgebutton {
+  width: 20px;
+  height: 20px;
+  background: #eee;
+  border: 1px solid #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.edgebutton:hover {
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.08);
+}
+
+.edgebutton-foreignobject body {
+  background: transparent;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+}
+
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 5;
+}
+
+.node-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.top-bar button {
+  padding: 8px 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.top-bar button:hover {
+  background-color: #45a049;
+}
+
+.execute-button {
+  margin-left: auto;
+  background-color: #008CBA !important;
+}
+
+.execute-button:hover {
+  background-color: #007B9A !important;
+}
+
+.result-panel {
+  position: absolute;
+  bottom: 80px; /* Increased to avoid overlapping with bottom icons */
+  left: 10px;
+  background: white;
+  padding: 10px;
+  max-width: calc(100% - 20px);
+  max-height: 30%;
+  overflow-y: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 5; /* Ensure it's above the React Flow canvas */
+}
+
+.edgebutton {
+  width: 20px;
+  height: 20px;
+  background: #eee;
+  border: 1px solid #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.edgebutton:hover {
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.08);
+}
+
+.edgebutton-foreignobject {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+}
+
+/* Ensure the React Flow controls don't overlap with the result panel */
+.react-flow__controls {
+  bottom: 20px !important;
+  left: 20px !important;
+}
+
+.react-flow__node-default,
+.react-flow__node-input,
+.react-flow__node-output,
+.react-flow__node-group {
+  width: auto !important;
+  min-width: 200px !important;
+  max-width: 500px !important;
+}
+
+.node {
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  background-color: #f0f0f0;
+  border: 1px solid #d0d0d0;
+}
+
+.node-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: #e0e0e0;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.node-content {
+  padding: 10px;
+  font-size: 12px;
+}
+
+.node-content input,
+.node-content select,
+.node-content textarea {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.node-content label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-node {
+  background-color: #e6f7ff !important;
+  border-color: #91d5ff !important;
+}
+
+.text-transformation {
+  background-color: #f6ffed !important;
+  border-color: #b7eb8f !important;
+}
+
+.text-analysis {
+  background-color: #fff7e6 !important;
+  border-color: #ffd591 !important;
+}
+
+.sentiment-analysis {
+  background-color: #fff0f6 !important;
+  border-color: #ffadd2 !important;
+}
+
+.gpt-node {
+  background-color: #f9f0ff !important;
+  border-color: #d3adf7 !important;
+}
+
+.node-result {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 12px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.node-result pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.nodrag {
+  pointer-events: all !important;
+}
