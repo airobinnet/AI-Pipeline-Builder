@@ -1,9 +1,9 @@
 # backend\app\__init__.py
 
-from flask import Flask
-from flask_cors import CORS
+from quart import Quart
+from quart_cors import cors
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+app = Quart(__name__)
+app = cors(app, allow_origin="http://localhost:3000")
 
 from app import routes

@@ -1,14 +1,15 @@
-from .base_node import BaseNode
+def process(input_data, options):
+    return options.get('value', '')
 
-class Node(BaseNode):
-    type = "Input Node"
-
-    def process(self, input_data, options):
-        return input_data
-
-    @classmethod
-    def get_frontend_config(cls):
-        return {
-            "type": cls.type,
-            "options": []
-        }
+def get_ui_config():
+    return {
+        "type": "Input Node",
+        "fields": [
+            {
+                "name": "value",
+                "type": "text",
+                "label": "Input",
+                "placeholder": "Enter input"
+            }
+        ]
+    }
