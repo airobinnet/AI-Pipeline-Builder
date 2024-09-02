@@ -47,7 +47,8 @@ def process(input_data, options):
     return sync_gpt_function(input_data, options)
 
 async def async_process(input_data, options):
-    return await async_gpt_function(input_data, options)
+    result = await async_gpt_function(input_data, options)
+    yield result
 
 def get_ui_config():
     return {

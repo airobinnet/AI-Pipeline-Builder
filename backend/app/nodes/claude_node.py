@@ -17,6 +17,9 @@ def extract_text(content):
 
 async def async_claude_function(input_data, options):
     try:
+        if options.get('use_custom_input', False):
+            custom_input = options.get('custom_input', '')
+            input_data = custom_input.replace('{input}', input_data)
         max_tokens = int(options.get('max_tokens', 1024))
         model = options.get('model', 'claude-3-opus-20240229')
         system_message = options.get('system_message', "You are a helpful assistant.")
@@ -61,7 +64,8 @@ def process(input_data, options):
     return sync_claude_function(input_data, options)
 
 async def async_process(input_data, options):
-    return await async_claude_function(input_data, options)
+    result = await async_claude_function(input_data, options)
+    yield result
 
 def get_ui_config():
     return {
@@ -90,6 +94,18 @@ def get_ui_config():
                 "type": "textarea",
                 "label": "System Message",
                 "placeholder": "You are a helpful assistant."
+            },
+            {
+                "name": "use_custom_input",
+                "type": "checkbox",
+                "label": "Use Custom Input"
+            },
+            {
+                "name": "custom_input",
+                "type": "textarea",
+                "label": "Custom Input",
+                "placeholder": "Custom input (use {input} for previous node's output)",
+                "condition": {"field": "use_custom_input", "value": True}
             }
         ]
     }

@@ -1,3 +1,5 @@
+# backend/app/pipelines/dynamic_pipeline.py
+
 import os
 import importlib.util
 import asyncio
@@ -9,15 +11,21 @@ load_dotenv()
 def load_node_modules():
     node_modules = {}
     nodes_dir = os.path.join(os.path.dirname(__file__), '..', 'nodes')
+    print(f"Loading nodes from: {nodes_dir}")
     for filename in os.listdir(nodes_dir):
         if filename.endswith('.py'):
             module_name = filename[:-3]
             module_path = os.path.join(nodes_dir, filename)
+            print(f"Loading module: {module_name} from {module_path}")
             spec = importlib.util.spec_from_file_location(module_name, module_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
             if hasattr(module, 'process') and hasattr(module, 'get_ui_config'):
-                node_modules[module.get_ui_config()['type']] = module
+                node_type = module.get_ui_config()['type']
+                print(f"Added node type: {node_type}")
+                node_modules[node_type] = module
+            else:
+                print(f"Module {module_name} does not have required attributes")
     return node_modules
 
 NODE_MODULES = load_node_modules()
@@ -70,15 +78,17 @@ async def execute_pipeline(config, start_node_id=None):
 
     async def process_node(node_id):
         if node_id in processed:
-            return results.get(node_id)
-        
+            yield node_id, results.get(node_id)
+            return
+
         node = nodes[node_id]
         module = NODE_MODULES.get(node['type'])
         if not module:
             result = f"Unknown node type: {node['type']}"
             results[node_id] = result
             processed.add(node_id)
-            return result
+            yield node_id, result
+            return
 
         if node['type'] == 'Input Node':
             input_data = node.get('input') or node.get('options', {}).get('value', '')
@@ -92,7 +102,7 @@ async def execute_pipeline(config, start_node_id=None):
                 else:
                     input_data = []
                     for parent in parents:
-                        parent_result = await process_node(parent)
+                        parent_result = results.get(parent)
                         if parent_result is not None:
                             input_data.append(parent_result)
                     if not input_data:
@@ -101,18 +111,24 @@ async def execute_pipeline(config, start_node_id=None):
                         input_data = input_data[0] if len(input_data) == 1 else ' '.join(input_data)
 
         if hasattr(module, 'async_process'):
-            result = await module.async_process(input_data, node.get('options', {}))
+            async for result in module.async_process(input_data, node.get('options', {})):
+                if isinstance(result, dict) and "error" in result:
+                    yield node_id, {"error": result["error"]}
+                    break
+                yield node_id, {"result": result}
+                if isinstance(result, dict) and result.get("is_final"):
+                    results[node_id] = result.get("image") or result
         else:
             result = module.process(input_data, node.get('options', {}))
+            results[node_id] = result
+            yield node_id, {"result": result}
 
-        results[node_id] = result
         processed.add(node_id)
-        return result
 
     # Process nodes in topological order
     for node_id in execution_order:
-        result = await process_node(node_id)
-        yield node_id, result
+        async for intermediate_node_id, intermediate_result in process_node(node_id):
+            yield intermediate_node_id, intermediate_result
 
 def get_node_types():
     return {node_type: module.get_ui_config() for node_type, module in NODE_MODULES.items()}
