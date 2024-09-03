@@ -1,8 +1,8 @@
 # AI Pipeline Builder
 
-[![GitHub license](https://img.shields.io/github/license/airobinnet/ai-pipeline-builder.svg)](https://github.com/airobinnet/ai-pipeline-builder/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/airobinnet/ai-pipeline-builder.svg)](https://github.com/airobinnet/ai-pipeline-builder/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/airobinnet/ai-pipeline-builder.svg)](https://github.com/airobinnet/ai-pipeline-builder/issues)
+[![GitHub license](https://img.shields.io/github/license/airobinnet/AI-Pipeline-Builder.svg)](https://github.com/airobinnet/AI-Pipeline-Builder/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/airobinnet/AI-Pipeline-Builder.svg)](https://github.com/airobinnet/AI-Pipeline-Builder/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/airobinnet/AI-Pipeline-Builder.svg)](https://github.com/airobinnet/AI-Pipeline-Builder/issues)
 
 AI Pipeline Builder is a flexible and extensible platform for creating and executing AI pipelines. It allows users to visually construct workflows by connecting various AI nodes, including text processing, image generation, and language models.
 
